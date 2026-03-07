@@ -100,6 +100,217 @@ python nm.py
 
 ---
 
+
+# AI Bandit Security Scanner
+
+## Overview
+
+AI Bandit Security Scanner is a Python-based tool that combines static code analysis with AI-powered security insights.
+It uses **Bandit** to scan Python code for common security vulnerabilities and then uses AI to explain the vulnerability and suggest secure fixes.
+
+This tool helps developers and security engineers identify and understand security risks in Python projects.
+
+---
+
+## Features
+
+* Static code analysis using Bandit
+* AI-powered vulnerability explanation
+* AI-generated secure code fixes
+* Scan local folders for Python vulnerabilities
+* Scan GitHub repositories
+* Automatic JSON security report generation
+
+---
+
+## Technologies Used
+
+* Python
+* Bandit (Python security linter)
+* OpenAI API
+* Subprocess module
+* JSON reporting
+
+---
+
+## Installation
+
+### 1. Clone the Repository
+
+```
+git clone <your-repo-url>
+cd <your-project-folder>
+```
+
+### 2. Install Dependencies
+
+```
+pip install bandit openai
+```
+
+### 3. Configure API Key
+
+Open the file `ai_bandit_scanner.py` and add your OpenAI API key:
+
+```
+OPENAI_API_KEY = "your_api_key_here"
+```
+
+---
+
+## Usage
+
+Run the scanner:
+
+```
+python ai_bandit_scanner.py
+```
+
+You will see the following options:
+
+```
+AI Powered Security Scanner
+
+1. Scan local folder
+2. Scan GitHub repository
+```
+
+### Scan Local Folder
+
+Enter the folder path containing Python files.
+
+Example:
+
+```
+Enter folder path: D:\Projects\sample_app
+```
+
+### Scan GitHub Repository
+
+Provide the GitHub repository URL.
+
+Example:
+
+```
+https://github.com/user/project
+```
+
+---
+
+## Example Vulnerable Code
+
+```
+import subprocess
+
+user_input = input()
+
+subprocess.run("ls " + user_input, shell=True)
+```
+
+### Detected Issue
+
+* Command Injection vulnerability due to `shell=True`.
+
+---
+
+## Output
+
+After scanning, the tool generates a file:
+
+```
+security_report.json
+```
+
+Example report structure:
+
+```
+{
+  "scan_time": "2026-03-07",
+  "total_issues": 1,
+  "issues": [
+    {
+      "issue_text": "subprocess call with shell=True",
+      "issue_severity": "HIGH",
+      "filename": "app.py",
+      "line_number": 12,
+      "ai_analysis": "Explanation and secure fix..."
+    }
+  ]
+}
+```
+
+---
+
+## Project Structure
+
+```
+ai_bandit_scanner.py
+security_report.json
+README.md
+```
+
+---
+
+## How It Works
+
+1. The tool scans Python code using Bandit.
+2. Bandit detects security vulnerabilities.
+3. The AI module analyzes each vulnerability.
+4. AI provides explanation and secure code recommendations.
+5. A structured security report is generated.
+
+---
+
+## Example Workflow
+
+```
+Python Source Code
+        │
+        ▼
+Bandit Static Analysis
+        │
+        ▼
+Detected Vulnerabilities
+        │
+        ▼
+AI Security Analysis
+        │
+        ▼
+Detailed Security Report
+```
+
+---
+
+## Use Cases
+
+* Secure code reviews
+* DevSecOps pipelines
+* Learning secure coding practices
+* Cybersecurity projects
+* Vulnerability analysis
+
+---
+
+## Future Improvements
+
+* Web dashboard for security reports
+* Automatic vulnerability patch generation
+* CI/CD integration
+* Machine learning vulnerability detection
+* Multi-language support
+
+---
+
+## Disclaimer
+
+This tool is intended for educational and security research purposes only. Always test security tools in controlled environments.
+
+---
+
+## License
+
+MIT License
+
 ## License
 
 This tool is provided as-is for educational and internal network testing purposes. Use responsibly and only on networks you own or have permission to scan.
