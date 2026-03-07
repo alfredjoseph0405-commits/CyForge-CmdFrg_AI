@@ -101,7 +101,7 @@ def cmgenerator(pm):
         if i in dat["cmd"]:
             dat["isadmn"]=True
     if dat["isadmn"]:
-        mn.after(0, lambda: cmlet.insert(tk.END, "[!] - This command requires administrative privileges. As safety measure such command will not be run by the script. Alternate command will be generated is posiible..\n"))
+        mn.after(0, lambda: cmlet.insert(tk.END, "[!] - This command requires administrative privileges. As safety measure such command will not be run by the script. Alternate command will be generated if posiible..\n"))
         res=client.models.generate_content(
             model="gemini-3.1-flash-lite-preview",
             contents="""
@@ -126,11 +126,12 @@ also strictly dont use (-sS, -sU, -sN, -sF, -sX, -sA, -O) flags if not possible 
             return
     else:
         aldat=dat
+    mn.after(0,lambda:dsclet.delete(1.0, tk.END))
     aldat["cmd"]=normalize(aldat["cmd"])
     if aldat and aldat["cmd"]!="N/A":
         mn.after(0, lambda: cmlet.insert(tk.END, "[*] - Alternate Command:  " + aldat["cmd"] + "\n"))
         mn.after(0, lambda: dsclet.insert(tk.END, "[*] - Alternate Command Description:\n" + aldat["desc"] + "\n"))
-    mn.after(0, lambda: cmlab.configure(text="Nmap Command:  "+dat["cmd"]))
+    mn.after(0, lambda: cmlab.configure(text="Nmap Command:  "+aldat["cmd"]))
     mn.after(0, lambda: dsclet.insert(tk.END, "[*] - Scan Type:  " + dat["scan_type"] + "\n"))
     mn.after(0, lambda: dsclet.insert(tk.END, "[*] - Target:  " + dat["target"] + "\n"))
     per=permission(aldat["cmd"])
@@ -160,6 +161,7 @@ also strictly dont use (-sS, -sU, -sN, -sF, -sX, -sA, -O) flags if not possible 
         )
         mn.after(0,lambda: dsclet.insert(tk.END, "AI Analysis:  " + re.text.strip()))
     mn.after(0, lambda : gencmbt.config(state=tk.NORMAL))
+    mn.after(0,lambda: cmlet.insert(tk.END, "[........] Process terminated\n\n\n"))
 
 def command_descriptor(cm):
     res=client.models.generate_content(
@@ -168,7 +170,7 @@ def command_descriptor(cm):
     )
     mn.after(0, lambda: dsclet.insert(tk.END, "AI Description:  " + res.text.strip()))
     mn.after(0, lambda: gendcsbt.config(state=tk.NORMAL))
-
+    mn.after(0,lambda:cmlet.insert(tk.END, "[........] Process terminated\n\n\n"))
 
 def genbtn():
     gencmbt.config(state=tk.DISABLED)
@@ -180,7 +182,6 @@ def genbtn():
         cmlet.insert(tk.END, "[*] Generating command for prompt:  "+st+"\n")
         t=threading.Thread(target=cmgenerator, args=(st,), daemon=True)
         t.start()
-
 def descbtn():
     cmlab.config(text="Nmap Command:")
     dsclet.delete(1.0, tk.END)
@@ -194,19 +195,20 @@ def descbtn():
         t=threading.Thread(target=command_descriptor, args=(st,), daemon=True)
         t.start()
 mn=tk.Tk()
-try:
-    mn.state("zoomed")
-except tk.TclError:
-    mn.state("normal")
 
-mn.title("Nmap Command Generator and Descriptor")
-mn.geometry("400x200")
+try:
+    mn.state('zoomed')
+except tk.TclError:
+    mn.attributes('-zoomed', True)
+
+
+ma=tk.Label(mn, text="Nmap Command Generator and Descriptor", font=("Arial", 30)).pack()
 lft=tk.Frame(mn)
 lft.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 rgt=tk.Frame(mn)
-lb1=tk.Label(lft, text="Nmap Command Generator", font=("Arial", 16))
+lb1=tk.Label(lft, text="Nmap Command Generator", font=("Arial", 25))
 lb1.pack(fill=tk.X)
-lb2=tk.Label(rgt, text="Nmap Command Descriptor", font=("Arial", 16))
+lb2=tk.Label(rgt, text="Nmap Command Descriptor", font=("Arial", 25))
 lb2.pack(fill=tk.X)
 rgt.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
 cmlet=scrolledtext.ScrolledText(lft, wrap=tk.WORD)
@@ -215,12 +217,12 @@ cmlab=tk.Label(rgt, text="Nmap Command:", font=("Arial", 12))
 cmlab.pack(fill=tk.X)
 dsclet=scrolledtext.ScrolledText(rgt, wrap=tk.WORD)
 dsclet.pack(fill=tk.BOTH, expand=True)
-prompt=tk.Entry(lft)
+prompt=tk.Entry(lft, font=("Arial",18))
 prompt.pack(fill=tk.X)
 btfr=tk.Frame(lft)
 btfr.pack()
-gencmbt=tk.Button(btfr, text="Generate Command", command=genbtn)
-gendcsbt=tk.Button(btfr, text="Describe Command", command=descbtn)
+gencmbt=tk.Button(btfr, text="Generate Command", command=genbtn, height=4)
+gendcsbt=tk.Button(btfr, text="Describe Command", command=descbtn, height=4)
 gencmbt.pack(side=tk.LEFT, fill=tk.X, expand=True)
 gendcsbt.pack(side=tk.LEFT, fill=tk.X, expand=True)
 tk.mainloop()
