@@ -101,217 +101,165 @@ python nm.py
 ---
 
 
-# AI Bandit Security Scanner
+# AI-Powered Security Scanner 
 
-## Overview
+A **modern GUI-based Python security scanner** that integrates **Bandit static analysis** with **AI-powered vulnerability explanation and remediation**.
+The application scans local Python projects or GitHub repositories, detects security issues using Bandit, and then uses AI to explain the vulnerability and suggest secure fixes.
 
-AI Bandit Security Scanner is a Python-based tool that combines static code analysis with AI-powered security insights.
-It uses **Bandit** to scan Python code for common security vulnerabilities and then uses AI to explain the vulnerability and suggest secure fixes.
-
-This tool helps developers and security engineers identify and understand security risks in Python projects.
+The tool includes a **modern dark-mode interface built using CustomTkinter**.
 
 ---
 
-## Features
+# Features 
 
-* Static code analysis using Bandit
-* AI-powered vulnerability explanation
-* AI-generated secure code fixes
-* Scan local folders for Python vulnerabilities
-* Scan GitHub repositories
-* Automatic JSON security report generation
+*  **Automated Python Security Scanning** using Bandit
+*  **AI Vulnerability Analysis** using OpenAI models
+*  **Detailed Explanation of Vulnerabilities**
+*  **Secure Code Fix Suggestions**
+*  **Modern Dark Mode GUI** using CustomTkinter
+*  **Scan Local Folder or GitHub Repository**
+*  **Automatic JSON Security Report Generation**
+*  **Scrollable UI Output Window**
 
 ---
 
-## Technologies Used
+# Technologies Used
 
 * Python
 * Bandit (Python security linter)
 * OpenAI API
-* Subprocess module
-* JSON reporting
+* CustomTkinter
+* Subprocess
+* JSON
+* Git
+
+Bandit is a security tool originally developed by the **OpenStack Security Project**.
 
 ---
 
-## Installation
+# Installation 
 
-### 1. Clone the Repository
+## 1. Clone the repository
 
-```
-git clone <your-repo-url>
-cd <your-project-folder>
-```
-
-### 2. Install Dependencies
-
-```
-pip install bandit openai
-```
-
-### 3. Configure API Key
-
-Open the file `ai_bandit_scanner.py` and add your OpenAI API key:
-
-```
-OPENAI_API_KEY = "your_api_key_here"
+```bash
+git clone https://github.com/yourusername/ai-security-scanner.git
+cd ai-security-scanner
 ```
 
 ---
 
-## Usage
+## 2. Install required libraries
 
-Run the scanner:
-
-```
-python ai_bandit_scanner.py
+```bash
+pip install bandit openai customtkinter
 ```
 
-You will see the following options:
-
-```
-AI Powered Security Scanner
-
-1. Scan local folder
-2. Scan GitHub repository
-```
-
-### Scan Local Folder
-
-Enter the folder path containing Python files.
-
-Example:
-
-```
-Enter folder path: D:\Projects\sample_app
-```
-
-### Scan GitHub Repository
-
-Provide the GitHub repository URL.
-
-Example:
-
-```
-https://github.com/user/project
-```
+Make sure **git** is installed on your system.
 
 ---
 
-## Example Vulnerable Code
+# Getting an OpenAI API Key 
 
-```
-import subprocess
+1. Go to https://platform.openai.com
+2. Sign in or create an account
+3. Navigate to **API Keys**
+4. Click **Create new secret key**
+5. Copy the generated key
 
-user_input = input()
-
-subprocess.run("ls " + user_input, shell=True)
-```
-
-### Detected Issue
-
-* Command Injection vulnerability due to `shell=True`.
+You will enter this key inside the application when scanning.
 
 ---
 
-## Output
+# Running the Application 
 
-After scanning, the tool generates a file:
+Run the program:
+
+```bash
+python ai_security_scanner.py
+```
+
+The GUI interface will launch.
+
+---
+
+# How to Use the Scanner
+
+1. Enter your **OpenAI API Key**
+2. Choose a **Local Folder** OR enter a **GitHub repository URL**
+3. Click **Start Security Scan**
+4. View vulnerabilities and AI explanations in the output window
+5. A **JSON report** will be generated automatically
+
+Generated report file:
 
 ```
 security_report.json
 ```
 
-Example report structure:
-
-```
-{
-  "scan_time": "2026-03-07",
-  "total_issues": 1,
-  "issues": [
-    {
-      "issue_text": "subprocess call with shell=True",
-      "issue_severity": "HIGH",
-      "filename": "app.py",
-      "line_number": 12,
-      "ai_analysis": "Explanation and secure fix..."
-    }
-  ]
-}
-```
-
 ---
 
-## Project Structure
+# Example Scan Output
 
 ```
-ai_bandit_scanner.py
-security_report.json
-README.md
+Issue: Use of subprocess with shell=True
+Severity: HIGH
+File: app.py
+Line: 10
+
+AI Analysis:
+This vulnerability occurs when shell=True is used in subprocess calls...
+Attackers can inject malicious commands...
+
+Secure Fix:
+Use subprocess.run([...], shell=False)
 ```
 
 ---
 
-## How It Works
-
-1. The tool scans Python code using Bandit.
-2. Bandit detects security vulnerabilities.
-3. The AI module analyzes each vulnerability.
-4. AI provides explanation and secure code recommendations.
-5. A structured security report is generated.
-
----
-
-## Example Workflow
+# Project Structure
 
 ```
-Python Source Code
-        │
-        ▼
-Bandit Static Analysis
-        │
-        ▼
-Detected Vulnerabilities
-        │
-        ▼
-AI Security Analysis
-        │
-        ▼
-Detailed Security Report
+ai-security-scanner/
+│
+├── ai_security_scanner.py
+├── security_report.json
+├── README.md
 ```
 
 ---
 
-## Use Cases
+# Future Improvements
 
-* Secure code reviews
-* DevSecOps pipelines
-* Learning secure coding practices
-* Cybersecurity projects
-* Vulnerability analysis
+Planned enhancements:
 
----
-
-## Future Improvements
-
-* Web dashboard for security reports
-* Automatic vulnerability patch generation
-* CI/CD integration
-* Machine learning vulnerability detection
-* Multi-language support
+*  Vulnerability severity dashboard
+*  Scan progress bar
+*  HTML security reports
+*  Color-coded vulnerabilities
+*  AI automatic patch generation
+*  GitHub pull request scanning
+*  Packaging as a desktop application
 
 ---
 
-## Disclaimer
+# Educational Purpose
 
-This tool is intended for educational and security research purposes only. Always test security tools in controlled environments.
+This project is designed for:
+
+* Cybersecurity students
+* Python developers
+* Security researchers
+* Hackathon projects
+* Security automation learning
 
 ---
 
-## License
+# License
 
-MIT License
+This project is open-source and available under the **MIT License**.
 
-## License
+---
 
-This tool is provided as-is for educational and internal network testing purposes. Use responsibly and only on networks you own or have permission to scan.
+# Author
 
+Developed as a **Python cybersecurity automation project combining static analysis with AI assistance**.
